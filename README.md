@@ -1,16 +1,8 @@
-[https://bambitp.github.io/GLTP](https://bambitp.github.io/GLTP)
+# bambitp.github.io
 
+Landing page for my TagPro work: tools, engine rebuilds, userscripts and the match-data archives.
 
-[https://bambitp.github.io/StraTAGy](https://bambitp.github.io/StraTAGy)
+**https://bambitp.github.io/**
 
-
-[https://bambitp.github.io/BuildAMapWorkshop](https://bambitp.github.io/BuildAMapWorkshop)
-
-
-[https://bambitp.github.io/Tagpro-Next](https://bambitp.github.io/Tagpro-Next)
-
-
-[https://bambitp.github.io/Image-To-Map-Tagpro/](https://bambitp.github.io/Image-To-Map-Tagpro/)
-
-
-
+`index.html` is the whole site — plain HTML and CSS, no build step. `.nojekyll` keeps GitHub
+Pages from running it through Jekyll.
