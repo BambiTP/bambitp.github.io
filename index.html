@@ -1,465 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BambiTP</title>
-<meta name="description" content="TagPro tools, game clones and match-data archives by BambiTP.">
+<meta name="description" content="TagPro clones, bots, userscripts, map tools, stats and spreadsheets by Bambi.">
+<link rel="icon" type="image/png" href="img/favicon.png">
 <style>
 :root{
-  --bg:#f7f7f5; --panel:#fff; --ink:#16181d; --muted:#5b6270; --faint:#8a919e;
-  --rule:#e3e5ea; --link:#2f6fb3; --accent:#2e7d5b; --chip:#eef0f3; --dot:#c6cad2;
-}
-@media (prefers-color-scheme:dark){
-  :root{
-    --bg:#101215; --panel:#171a1f; --ink:#e8eaee; --muted:#a2aab8; --faint:#78808e;
-    --rule:#282c34; --link:#5b9bdd; --accent:#4dae83; --chip:#1e222a; --dot:#3a404b;
-  }
+  --bg:#0f1115; --panel:#181b22; --panel2:#1f232c; --ink:#eceef2; --muted:#9aa3b2;
+  --rule:#2a2f3a; --red:#e8453c; --blue:#3d7be0; --play:#cfe03a;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{
-  margin:0; background:var(--bg); color:var(--ink);
-  font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
-  -webkit-font-smoothing:antialiased;
-}
-a{color:var(--link); text-decoration:none}
-a:hover{text-decoration:underline}
-.wrap{max-width:900px; margin:0 auto; padding:0 16px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:inherit; text-decoration:none}
+.wrap{max-width:1180px; margin:0 auto; padding:0 16px}
 
-header{padding:56px 0 26px; border-bottom:1px solid var(--rule)}
-h1{font-size:27px; font-weight:640; letter-spacing:-.02em; margin:0 0 8px}
-header p{margin:0; color:var(--muted); font-size:15px; max-width:64ch}
-nav{margin-top:20px; display:flex; flex-wrap:wrap; gap:8px}
-nav a{
-  font-size:13px; padding:5px 11px; border-radius:99px;
-  background:var(--chip); color:var(--muted); border:1px solid var(--rule);
-}
-nav a:hover{color:var(--ink); text-decoration:none; border-color:var(--dot)}
+header{position:sticky; top:0; z-index:5; background:rgba(15,17,21,.94);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--rule)}
+.top{display:flex; align-items:center; gap:14px; padding:14px 0 10px; flex-wrap:wrap}
+.brand{display:flex; align-items:center; gap:10px; margin-right:auto}
+.brand img{width:44px; height:44px}
+.brand h1{margin:0; font-size:22px; letter-spacing:-.01em}
+.brand span{display:block; font-size:13px; color:var(--muted)}
+#q{width:260px; max-width:100%; padding:9px 12px; border-radius:8px; border:1px solid var(--rule);
+  background:var(--panel); color:var(--ink); font:inherit}
+#q:focus{outline:2px solid var(--blue); outline-offset:-1px}
+.tabs{display:flex; gap:6px; padding:0 0 12px; overflow-x:auto; scrollbar-width:none}
+.tabs button{flex:none; border:1px solid var(--rule); background:var(--panel); color:var(--muted);
+  padding:6px 13px; border-radius:99px; font:inherit; font-size:14px; cursor:pointer}
+.tabs button b{font-weight:500; opacity:.6; margin-left:4px; font-size:12px}
+.tabs button:hover{color:var(--ink)}
+.tabs button.on{background:var(--ink); color:var(--bg); border-color:var(--ink)}
 
-section{padding:44px 0 4px; scroll-margin-top:16px}
-h2{font-size:19px; font-weight:640; letter-spacing:-.01em; margin:0 0 6px}
-h3{font-size:13px; font-weight:600; letter-spacing:.05em; text-transform:uppercase;
-   color:var(--faint); margin:30px 0 12px}
-.lead{margin:0 0 20px; color:var(--muted); font-size:14px; max-width:68ch}
-
-/* card grid */
-.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1px;
-      background:var(--rule); border:1px solid var(--rule); border-radius:10px; overflow:hidden}
-.card{background:var(--panel); padding:15px 16px; display:flex; flex-direction:column; gap:5px}
-.card .name{font-weight:620; font-size:14.5px; letter-spacing:-.01em}
-.card .name a{color:var(--ink)}
-.card .name a:hover{color:var(--link)}
-.card p{margin:0; font-size:13.5px; color:var(--muted)}
-.card .links{margin-top:auto; padding-top:8px; font-size:12.5px; display:flex; flex-wrap:wrap; gap:10px}
-.card .links a{color:var(--link)}
-.card .links .sep{color:var(--dot)}
-
-/* userscript list */
-.scripts{border:1px solid var(--rule); border-radius:10px; overflow:hidden; background:var(--panel)}
-.script{display:flex; gap:14px; align-items:baseline; padding:11px 16px; border-bottom:1px solid var(--rule)}
-.script:last-child{border-bottom:0}
-.script .sname{font-weight:600; font-size:14px; min-width:210px; flex-shrink:0}
-.script .sdesc{font-size:13.5px; color:var(--muted); flex:1; min-width:0}
-@media (max-width:620px){
-  .script{flex-direction:column; gap:3px}
-  .script .sname{min-width:0}
-}
-
-/* timeline */
-.timeline{position:relative; margin:0; padding:4px 0 0 0; list-style:none}
-.timeline::before{content:""; position:absolute; left:7px; top:14px; bottom:14px;
-                  width:2px; background:var(--rule)}
-.tl{position:relative; padding:0 0 26px 30px}
-.tl::before{content:""; position:absolute; left:2px; top:7px; width:12px; height:12px;
-            border-radius:50%; background:var(--panel); border:2px solid var(--dot)}
-.tl.now::before{border-color:var(--accent); background:var(--accent)}
-.tl .when{font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--faint);
-          font-variant-numeric:tabular-nums}
-.tl .what{font-weight:620; font-size:15px; letter-spacing:-.01em; margin:2px 0 4px}
-.tl .what a{color:var(--ink)}
-.tl .what a:hover{color:var(--link)}
-.tl p{margin:0; font-size:13.5px; color:var(--muted); max-width:64ch}
-.tl .meta{margin-top:6px; font-size:12.5px; color:var(--faint)}
-.tl .meta a{color:var(--link)}
-.tag{display:inline-block; font-size:11px; letter-spacing:.04em; text-transform:uppercase;
-     padding:1px 7px; border-radius:99px; background:var(--chip); color:var(--faint);
-     border:1px solid var(--rule); vertical-align:2px; margin-left:6px; font-weight:600}
-
-/* stat strip */
-.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1px;
-       background:var(--rule); border:1px solid var(--rule); border-radius:10px;
-       overflow:hidden; margin:0 0 20px}
-.stat{background:var(--panel); padding:14px 16px}
-.stat b{display:block; font-size:21px; font-weight:640; letter-spacing:-.02em;
-        font-variant-numeric:tabular-nums}
-.stat span{display:block; font-size:12.5px; color:var(--muted); margin-top:2px}
-
-footer{margin-top:52px; padding:22px 0 46px; border-top:1px solid var(--rule);
-       font-size:13px; color:var(--faint)}
-footer a{color:var(--muted)}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr)); gap:16px; padding:22px 0 40px}
+.card{min-width:0; background:var(--panel); border:1px solid var(--rule); border-radius:12px; overflow:hidden;
+  display:flex; flex-direction:column; transition:transform .12s, border-color .12s}
+.card:hover{transform:translateY(-2px); border-color:#3a4150}
+.pic{display:block; aspect-ratio:16/10; background:var(--panel2); position:relative; overflow:hidden}
+.pic img{width:100%; height:100%; object-fit:cover; display:block}
+.pic.gen{aspect-ratio:16/5; display:flex; align-items:flex-end; justify-content:flex-end; padding:0 14px 6px; font-size:34px}
+.pic .cat{position:absolute; left:8px; top:8px; font-size:11px; letter-spacing:.05em; text-transform:uppercase;
+  background:rgba(0,0,0,.6); color:#fff; padding:2px 8px; border-radius:99px}
+.body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:4px; flex:1}
+.name{font-weight:650; font-size:15.5px}
+.desc{color:var(--muted); font-size:13.5px}
+.btns{display:flex; gap:6px; flex-wrap:wrap; margin-top:auto; padding-top:10px}
+.btns a{font-size:13px; padding:5px 11px; border-radius:7px; background:var(--panel2); border:1px solid var(--rule)}
+.btns a:hover{border-color:var(--muted)}
+.btns a.main{background:var(--play); color:#111; border-color:var(--play); font-weight:650}
+.empty{color:var(--muted); padding:40px 0; text-align:center; grid-column:1/-1}
+footer{border-top:1px solid var(--rule); color:var(--muted); font-size:13px; padding:18px 0 30px}
+footer a{color:var(--ink)}
+@media (max-width:560px){ #q{width:100%} .grid{grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px} .pic.gen{font-size:26px} .desc{font-size:12.5px} .btns a{padding:5px 8px} }
+@media (max-width:360px){ .grid{grid-template-columns:minmax(0,1fr)} }
 </style>
 </head>
 <body>
-<div class="wrap">
-
 <header>
-  <h1>BambiTP</h1>
-  <p>Tools, game engines and match-data archives for
-     <a href="https://tagpro.koalabeast.com">TagPro</a> — the browser 4v4 capture-the-flag game.
-     Everything below is live and free to use.</p>
-  <nav>
-    <a href="#tools">Tools</a>
-    <a href="#scripts">Userscripts</a>
-    <a href="#clones">Clones</a>
-    <a href="#data">Stats &amp; data</a>
-    <a href="https://github.com/BambiTP">GitHub</a>
-  </nav>
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="./"><img src="img/deer.png" alt=""><div><h1>BambiTP</h1><span>TagPro stuff I've made. All free, all in the browser.</span></div></a>
+      <input id="q" type="search" placeholder="Search…" aria-label="Search projects">
+    </div>
+    <nav class="tabs" id="tabs"></nav>
+  </div>
 </header>
 
-<!-- ============ TOOLS ============ -->
-<section id="tools">
-  <h2>Tools</h2>
-  <p class="lead">Browser tools for maps, textures and strategy. Each one is a single page —
-     open it and it works, nothing to install.</p>
+<main class="wrap"><div class="grid" id="grid"></div></main>
 
-  <div class="grid">
+<footer><div class="wrap">Made by Bambi · <a href="https://github.com/BambiTP">GitHub</a></div></footer>
 
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/StraTAGy/">StraTAGy</a></div>
-      <p>Draw plays and routes straight over a Fortunate Maps board.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/StraTAGy/">Open</a><span class="sep">·</span>
-        <a href="https://greasyfork.org/en/scripts/467747-fortunate-maps-stratagy">Userscript</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/StraTAGy">Source</a>
-      </div>
-    </div>
+<script>
+// To add a project: add one line below.
+// cat: clones | bots | scripts | maps | stats | sheets.  img: file in img/ (optional).  links: [label, url], first is the main button.
+const GH = 'https://github.com/BambiTP/', PG = 'https://bambitp.github.io/', GIST = 'https://gist.github.com/BambiTP/',
+      SHEET = id => 'https://docs.google.com/spreadsheets/d/' + id;
+const P = [
+  // Clones
+  {cat:'clones', name:'TagPro Offline', desc:'Single-player TagPro with bots. No server needed.', img:'offline', links:[['▶ Play', PG+'tagpro-offline/'], ['Code', GH+'tagpro-offline']]},
+  {cat:'clones', name:'BamBall', desc:'Multiplayer TagPro engine with Gravity and Eggball modes.', img:'bamball', links:[['▶ Play', PG+'BamBall/'], ['Code', GH+'BamBall']]},
+  {cat:'clones', name:'tagpro-local', desc:'The real TagPro client on a rebuilt server.', links:[['Code', GH+'tagpro-local']]},
+  {cat:'clones', name:'TagproOpen', desc:'Modular rebuild that later engines grew from.', img:'tagproopen', links:[['▶ Play', PG+'TagproOpen/game.html'], ['Code', GH+'TagproOpen']]},
+  {cat:'clones', name:'Tagpro Next', desc:'The first rebuild, with a bot to play against.', img:'tagpronext', links:[['▶ Play', PG+'Tagpro-Next/'], ['Code', GH+'Tagpro-Next']]},
+  {cat:'clones', name:'Blitz Arena', desc:'Portals, boosts and gravity wells sandbox.', links:[['▶ Play', PG+'BlitzArena/'], ['Code', GH+'BlitzArena']]},
+  {cat:'clones', name:'Replay Viewer', desc:'Plays a recorded match back through the physics.', links:[['Open', PG+'TagproReplay/'], ['Code', GH+'TagproReplay']]},
 
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/CustomTextures/">Custom Textures</a></div>
-      <p>Retexture map tiles with an anchored overlay editor, then export the pack.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/CustomTextures/">Open</a><span class="sep">·</span>
-        <a href="https://greasyfork.org/en/scripts/526517-tagpro-custom-map-tiles-anchored-pixi-overlay-editor">Userscript</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/texturepacks">Packs</a>
-      </div>
-    </div>
+  // Bots
+  {cat:'bots', name:'tagproAI', desc:'A bot that plans by searching the real engine.', links:[['Code', GH+'tagproAI']]},
+  {cat:'bots', name:'tpbot', desc:'Puts the ball exactly on a target, as fast as possible.', links:[['Code', GH+'tpbot']]},
 
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/Image-To-Map-Tagpro/">Image to Map</a></div>
-      <p>Drop in any image and get a playable TagPro map back, tile by tile.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/Image-To-Map-Tagpro/">Open</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/Image-To-Map-Tagpro">Source</a>
-      </div>
-    </div>
+  // Userscripts
+  {cat:'scripts', name:'Expected Caps Overlay', desc:'Shows each team’s expected caps while watching a replay.', links:[['Install', 'https://raw.githubusercontent.com/BambiTP/tagpro-findings/master/userscript/tagpro-xcaps.user.js'], ['Code', GH+'tagpro-findings/tree/master/userscript']]},
+  {cat:'scripts', name:'Minimap Advanced', desc:'Full-size minimap with live players.', links:[['Install', GIST+'141ce5ed4227723062c8e67026c6f39d/raw/TagproMiniMapyAdvanced.user.js'], ['Code', GIST+'141ce5ed4227723062c8e67026c6f39d']]},
+  {cat:'scripts', name:'Ranked Stats', desc:'Your ranked stats per player, from your replays page.', links:[['Install', GIST+'7f2a497c3ecdca061c97c4feae9cc4a6/raw/RankedStats.user.js'], ['Code', GIST+'7f2a497c3ecdca061c97c4feae9cc4a6']]},
+  {cat:'scripts', name:'Match Data Fetcher', desc:'Downloads your ranked match data as JSON.', links:[['Install', GIST+'fa68695fe38b482bceb942f2502c7bee/raw/fetchstats.user.js'], ['Code', GIST+'fa68695fe38b482bceb942f2502c7bee']]},
+  {cat:'scripts', name:'Skill Graph', desc:'Graph of a player’s skill rating on their profile.', links:[['Install', GIST+'fd9e3cadacb7a1695eb149c342f96aaf/raw/skillGraph.user.js'], ['Code', GIST+'fd9e3cadacb7a1695eb149c342f96aaf']]},
+  {cat:'scripts', name:'Auto Switch Teams', desc:'Evens the teams for you when someone joins or leaves.', links:[['Install', GIST+'b7b41416938f578d3d376fdb85e138b6/raw/AutoTeamSwitch.user.js'], ['Code', GIST+'b7b41416938f578d3d376fdb85e138b6']]},
+  {cat:'scripts', name:'Team Switch Macro', desc:'Switch teams with one key.', links:[['Install', GIST+'2540e15d3df53491c8d603f8c84eb7d0/raw/SwitchMacro.user.js'], ['Code', GIST+'2540e15d3df53491c8d603f8c84eb7d0']]},
+  {cat:'scripts', name:'Ranked Voice Chat', desc:'Puts ranked teams into a voice room.', links:[['Install', GIST+'edb6877fcb068e11ce58cdbebece9c48/raw/RankedVoice.user.js'], ['Code', GIST+'edb6877fcb068e11ce58cdbebece9c48']]},
+  {cat:'scripts', name:'Zomball', desc:'Runs the Zomball game mode in a group.', links:[['Install', GIST+'d9d1230fdd8b319f3410fb46738b0de9/raw/zomball.user.js'], ['Code', GIST+'d9d1230fdd8b319f3410fb46738b0de9']]},
+  {cat:'scripts', name:'Zombies & Spiderman', desc:'Zomball textures: blue team plays as zombies.', links:[['Install', GIST+'55c54d028e5e0b0ef768c597e4605b02/raw/ZomballTextures.user.js'], ['Code', GIST+'55c54d028e5e0b0ef768c597e4605b02']]},
+  {cat:'scripts', name:'EggPro', desc:'Small fixes for Egg Ball.', links:[['Install', GIST+'6c28fb4371b6102c845a3e0c92ec8737/raw/EggPro.user.js'], ['Code', GIST+'6c28fb4371b6102c845a3e0c92ec8737']]},
+  {cat:'scripts', name:'Disable Reports', desc:'Stops the report page opening on a kick.', links:[['Install', GIST+'5802103f397c4b47cbc374ea0db7d35e/raw/NoReport.user.js'], ['Code', GIST+'5802103f397c4b47cbc374ea0db7d35e']]},
+  {cat:'scripts', name:'Replace Map Select', desc:'Replaces the group map-selection list.', links:[['Install', 'https://raw.githubusercontent.com/BambiTP/ReplaceMapSelection/main/Replace%20Map%20Select-0.4.user.js'], ['Code', GH+'ReplaceMapSelection']]},
 
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/MapPreview/">Map Preview</a></div>
-      <p>See how any Fortunate Maps map looks under a given texture pack before you play it.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/MapPreview/">Open</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/MapPreview">Source</a>
-      </div>
-    </div>
+  // Map tools
+  {cat:'maps', name:'StraTAGy', desc:'Draw plays over any Fortunate Maps map.', img:'stratagy', links:[['Open', PG+'StraTAGy/'], ['Userscript', 'https://greasyfork.org/en/scripts/467747-fortunate-maps-stratagy'], ['Code', GH+'StraTAGy']]},
+  {cat:'maps', name:'Map Preview', desc:'See a Fortunate Maps map in any texture pack.', img:'mappreview', links:[['Open', PG+'MapPreview/'], ['Code', GH+'MapPreview']]},
+  {cat:'maps', name:'Live Map Editor', desc:'Edit a map while you play on it.', img:'liveeditor', links:[['Open', PG+'TagproLiveEditor/'], ['Code', GH+'TagproLiveEditor']]},
+  {cat:'maps', name:'Custom Textures', desc:'Retexture map tiles and export the pack.', img:'customtextures', links:[['Open', PG+'CustomTextures/'], ['Userscript', 'https://greasyfork.org/en/scripts/526517-tagpro-custom-map-tiles-anchored-pixi-overlay-editor'], ['Packs', GH+'texturepacks']]},
+  {cat:'maps', name:'Image to Map', desc:'Turn any image into a TagPro map.', img:'imagetomap', links:[['Open', PG+'Image-To-Map-Tagpro/'], ['Code', GH+'Image-To-Map-Tagpro']]},
+  {cat:'maps', name:'Wall Generator', desc:'Generate map walls from a few sliders.', img:'wallgen', links:[['Open', PG+'BuildAMapWorkshop/'], ['Code', GH+'BuildAMapWorkshop']]},
+  {cat:'maps', name:'Maps Stitcher', desc:'Lay map screenshots in a grid, save as one PNG.', links:[['Open', PG+'FortunateMapsStitcher/'], ['Code', GH+'FortunateMapsStitcher']]},
+  {cat:'maps', name:'Tile Grid Trainer', desc:'Map-reading drill with sound cues.', links:[['Open', PG+'OFM-Training/'], ['Code', GH+'OFM-Training']]},
+  {cat:'maps', name:'Map Ratings', desc:'Daily likes, dislikes and score for every rated map.', links:[['Open', SHEET('1oW00BDTxzhdsmQhNa-4FVWEbdxXKx1iqu4zuCppVEPE')]]},
 
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/BuildAMapWorkshop/">Wall Generator</a></div>
-      <p>Generates map walls and the tile geometry around them.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/BuildAMapWorkshop/">Open</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/BuildAMapWorkshop">Source</a>
-      </div>
-    </div>
+  // Stats
+  {cat:'stats', name:'TagPro Findings', desc:'What 10,564 ranked replays say about winning.', img:'findings', links:[['Read', GH+'tagpro-findings']]},
+  {cat:'stats', name:'Map Size vs Popularity', desc:'Every public game since 2015 vs map shape.', img:'mapanalysis', links:[['Read', GH+'tagpro-map-analysis']]},
+  {cat:'stats', name:'Ranked Replay Archive', desc:'Every ranked match, and the saved recordings.', img:'replayarchive', links:[['Open', PG+'tagpro-replay-archive/'], ['Download', PG+'tagpro-replay-archive/download.html'], ['Code', GH+'tagpro-replay-archive']]},
+  {cat:'stats', name:'NALTP Archive', desc:'Full history of the NA leagues.', img:'naltp', links:[['Open', PG+'naltp-archive/'], ['Code', GH+'naltp-archive']]},
+  {cat:'stats', name:'Zomball Stats', desc:'Zomball leaderboard, player pages and API.', links:[['Open', PG+'ZomballStats/'], ['Code', GH+'ZomballStats']]},
+  {cat:'stats', name:'Sheets Link Extractor', desc:'Pull every tagpro.eu link out of league sheets.', img:'eufromhub', links:[['Open', PG+'eufromhub/'], ['Code', GH+'eufromhub']]},
+  {cat:'stats', name:'Ranked Stats Collector', desc:'Python pipeline for ranked player and map stats.', links:[['Code', GH+'RankedStatsCollector']]},
+  {cat:'stats', name:'TagproStats', desc:'Stats tool with a GUI for tagpro.eu matches.', links:[['Code', GH+'TagproStats']]},
+  {cat:'stats', name:'tagpro.eu Decoder', desc:'Read tagpro.eu match files in JavaScript.', links:[['Code', GH+'tagpro.eu-data']]},
+  {cat:'stats', name:'Public Games', desc:'297k public match summaries, one CSV.', links:[['Download', GH+'PublicGames']]},
+  {cat:'stats', name:'Socket API Reference', desc:'Every TagPro socket event, written down.', links:[['Read', GH+'api']]},
 
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/FortunateMapsStitcher/">Maps Stitcher</a></div>
-      <p>Lay map screenshots out in a grid and download the whole thing as one PNG.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/FortunateMapsStitcher/">Open</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/FortunateMapsStitcher">Source</a>
-      </div>
-    </div>
+  // Spreadsheets
+  {cat:'sheets', name:'Ranked Stats', desc:'Every ranked player’s full stat line (Aug 2025).', links:[['Open', SHEET('13lX7jrlbD0H87GYMt8WZt8tssoxQjYJUQ1ofGnSLRYw')]]},
+  {cat:'sheets', name:'Ranked Leaderboard', desc:'Ranked leaderboard, Nov 2025.', links:[['Open', SHEET('10FAeWmNfFrUW9Bpdf3D4Ob3w5vuNfC6o_oV2Es9bfAY')]]},
+  {cat:'sheets', name:'Elo Movement', desc:'Every player’s skill rating, game by game.', links:[['Open', SHEET('1g9DCFlX9p_57_-QUVYwU7p6u3JuOtFTviTQ-et-YgUo')]]},
+  {cat:'sheets', name:'Map Results', desc:'Red and blue win rates on each ranked map.', links:[['Open', SHEET('12u0BJ4sDbjFC9O7dnSirT38pIUIjB51WDqBdXG9H3Us')]]},
+  {cat:'sheets', name:'Pups and Caps', desc:'How powerups affect who caps.', links:[['Open', SHEET('1bVCuYHybtVnQNdMUd2ESqUTDdEDJNMYYe1oLUpJGC9w')]]},
+  {cat:'sheets', name:'NALTP Match Archive', desc:'19,599 labeled league games.', links:[['Open', SHEET('1i0485AuU760NnOR2FQD7bQUaORkzxcs65QrWQE_4iLM')]]},
+  {cat:'sheets', name:'Bambi Scores', desc:'Season scores for every league player.', links:[['Majors', SHEET('1mAbmzM2OghrrWr7oUDcNe2qQkTFKzVhLiYS4gxuOft8')], ['Minors', SHEET('1ZPXxuS5rBAqN9E0N0HonQy_WBGHCApRpP9t9rJEKua8')], ['Novice', SHEET('1bn4k7n1Xt8XAFZGcjnIBOwU2b8QVcqBbHXG8w0-0Ou4')]]},
+  {cat:'sheets', name:'Pick/Ban Cheat Sheet', desc:'Each Majors team’s record on every map.', links:[['Open', SHEET('1b7SYDDlHeW0xzuA431HUVEr0Q_gIO5mD1lwSEFmVp2s')]]},
+  {cat:'sheets', name:'Power Ranking Collective', desc:'Everyone’s power rankings, season by season.', links:[['Open', SHEET('1R4ntmlIQlhpWCan1kfclO9QC8Hc-4kBLCYO5XlGIWig')]]},
+  {cat:'sheets', name:'NALTP Drafts', desc:'Every draft across seasons.', links:[['Open', SHEET('1OFKL_84eF1tuFsf6aMFa1McTsIyXNLGUyqin0-fVDC0')]]},
+  {cat:'sheets', name:'Easy Mock Draft', desc:'Run a mock draft.', links:[['Open', SHEET('1ThAEyrZGz1RkmI_GZbOJQ1FjXo9e5gVTuXUDI6t7jSE')]]},
+  {cat:'sheets', name:'Auction / Snake Draft', desc:'Draft sheet for auction or snake drafts.', links:[['Open', SHEET('1j2E-PyVkdVL7bLIyHYhTcYq-Wq_djLAkes6STVqnvAw')]]},
+  {cat:'sheets', name:'Free Agents', desc:'GASP history for free agents.', links:[['Open', SHEET('1ZVbfTO0vJ_ESq7r6_-RJJtrt1SzUa5iDTaWhOlo2Rj0')]]},
+  {cat:'sheets', name:'TagPro Wordle', desc:'TagPro Wordle leaderboard.', links:[['Open', SHEET('1EoC_E4olz5GTnhAhfhmOZ-k3JDMnQwi5DZgfisP96Qg')]]},
+  {cat:'sheets', name:'Map Count (Sept 2023)', desc:'When every map was approved, promoted and removed.', links:[['Open', SHEET('1aZkt4-209ynS5dqTwmiQD_ks1Feif4Nukr8gFkeJt78')]]},
+];
 
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/TagproLiveEditor/">Live Map Editor</a></div>
-      <p>Edit a map while playing on it — the engine reloads tiles underneath you as you paint.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/TagproLiveEditor/">Open</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/TagproLiveEditor">Source</a>
-      </div>
-    </div>
+const CATS = {clones:['Clones','🎮','#3a1d22'], bots:['Bots','🤖','#1c2740'], scripts:['Userscripts','📜','#2d2a18'],
+              maps:['Map Tools','🗺️','#18302a'], stats:['Stats','📊','#22213a'], sheets:['Spreadsheets','📈','#183028']};
+const grid = document.getElementById('grid'), tabs = document.getElementById('tabs'), q = document.getElementById('q');
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let cat = (location.hash.slice(1) in CATS) ? location.hash.slice(1) : 'all';
 
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/OFM-Training/">Tile Grid Trainer</a></div>
-      <p>A PIXI tile-grid drill with sound cues, for practising map reading.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/OFM-Training/">Open</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/OFM-Training">Source</a>
-      </div>
-    </div>
+function card(p) {
+  const [label, icon, color] = CATS[p.cat], main = p.links[0][1];
+  const pic = p.img
+    ? `<a class="pic" href="${main}"><img src="img/${p.img}.jpg" alt="" loading="lazy"><span class="cat">${label}</span></a>`
+    : `<a class="pic gen" href="${main}" style="background:linear-gradient(135deg,${color},#14161c)">${icon}<span class="cat">${label}</span></a>`;
+  const btns = p.links.map(([t, u], i) => `<a class="${i === 0 ? 'main' : ''}" href="${u}">${esc(t)}</a>`).join('');
+  return `<div class="card">${pic}<div class="body"><div class="name">${esc(p.name)}</div><div class="desc">${esc(p.desc)}</div><div class="btns">${btns}</div></div></div>`;
+}
 
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/eufromhub/">Sheets Link Extractor</a></div>
-      <p>Pulls every tagpro.eu match link out of a league spreadsheet in one pass.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/eufromhub/">Open</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/eufromhub">Source</a>
-      </div>
-    </div>
+function render() {
+  const term = q.value.trim().toLowerCase();
+  const list = P.filter(p => (cat === 'all' || p.cat === cat) &&
+    (!term || (p.name + ' ' + p.desc + ' ' + CATS[p.cat][0]).toLowerCase().includes(term)));
+  grid.innerHTML = list.length ? list.map(card).join('') : '<div class="empty">Nothing matches that search.</div>';
+  tabs.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.cat === cat));
+}
 
-    <div class="card">
-      <div class="name"><a href="https://github.com/BambiTP/api">Socket API Reference</a></div>
-      <p>Every group and game socket event TagPro emits, with payload shapes — written down so
-         you don't have to read the client.</p>
-      <div class="links">
-        <a href="https://github.com/BambiTP/api">Read</a>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ============ USERSCRIPTS ============ -->
-<section id="scripts">
-  <h2>Userscripts</h2>
-  <p class="lead">Tampermonkey scripts that change the game or the site itself. Click one, then
-     install it from the raw file.</p>
-
-  <div class="scripts">
-    <div class="script">
-      <div class="sname"><a href="https://gist.github.com/BambiTP/141ce5ed4227723062c8e67026c6f39d">Minimap Advanced</a></div>
-      <div class="sdesc">Full-scale minimap with live players, re-rendering on every map update.
-        Earlier versions:
-        <a href="https://gist.github.com/BambiTP/f548c1ac777d276d58ac3bb20959548c">Minimap 2</a>,
-        <a href="https://gist.github.com/BambiTP/9f80b2e944c08be64a196e39e680ea6a">Minimap 1</a>.</div>
-    </div>
-    <div class="script">
-      <div class="sname"><a href="https://gist.github.com/BambiTP/7f2a497c3ecdca061c97c4feae9cc4a6">Ranked Stats</a></div>
-      <div class="sdesc">Scans your replays table, fetches every ranked match, and shows aggregated
-        per-player stats in a sortable modal.</div>
-    </div>
-    <div class="script">
-      <div class="sname"><a href="https://gist.github.com/BambiTP/fa68695fe38b482bceb942f2502c7bee">Match Data Fetcher</a></div>
-      <div class="sdesc">Same scan, but dumps the raw match data and table stats as one JSON object.</div>
-    </div>
-    <div class="script">
-      <div class="sname"><a href="https://gist.github.com/BambiTP/fd9e3cadacb7a1695eb149c342f96aaf">Skill Graph</a></div>
-      <div class="sdesc">Plots a player's skill rating over time on their profile page.</div>
-    </div>
-    <div class="script">
-      <div class="sname"><a href="https://gist.github.com/BambiTP/b7b41416938f578d3d376fdb85e138b6">Auto Switch Teams</a></div>
-      <div class="sdesc">Switches you to even the teams the moment someone joins, leaves or scores.</div>
-    </div>
-    <div class="script">
-      <div class="sname"><a href="https://gist.github.com/BambiTP/2540e15d3df53491c8d603f8c84eb7d0">Team Switch Macro</a></div>
-      <div class="sdesc">Switch teams on a single keypress.</div>
-    </div>
-    <div class="script">
-      <div class="sname"><a href="https://gist.github.com/BambiTP/edb6877fcb068e11ce58cdbebece9c48">Ranked Voice Chat</a></div>
-      <div class="sdesc">Reads the launcher's names, Elo and team colours and hands them to a voice room.</div>
-    </div>
-    <div class="script">
-      <div class="sname"><a href="https://gist.github.com/BambiTP/d9d1230fdd8b319f3410fb46738b0de9">Zomball</a></div>
-      <div class="sdesc">Runs the Zomball mode: auto team switching, winner announcements, no switch button.</div>
-    </div>
-    <div class="script">
-      <div class="sname"><a href="https://gist.github.com/BambiTP/55c54d028e5e0b0ef768c597e4605b02">Zombies &amp; Spiderman</a></div>
-      <div class="sdesc">Retextures both teams for Zomball — blue team plays as the zombies.</div>
-    </div>
-    <div class="script">
-      <div class="sname"><a href="https://gist.github.com/BambiTP/6c28fb4371b6102c845a3e0c92ec8737">EggPro</a></div>
-      <div class="sdesc">Quality-of-life tweaks for Egg Ball.</div>
-    </div>
-    <div class="script">
-      <div class="sname"><a href="https://gist.github.com/BambiTP/5802103f397c4b47cbc374ea0db7d35e">Disable Reports</a></div>
-      <div class="sdesc">Stops the report page from opening when a kick fires.</div>
-    </div>
-    <div class="script">
-      <div class="sname"><a href="https://github.com/BambiTP/ReplaceMapSelection">Replace Map Select</a></div>
-      <div class="sdesc">Swaps out the group map-selection list.</div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CLONES ============ -->
-<section id="clones">
-  <h2>Clones</h2>
-  <p class="lead">Seven attempts at rebuilding TagPro from scratch — Box2D physics, PIXI rendering,
-     and a bit more of the real game each time. In order.</p>
-
-  <ol class="timeline">
-
-    <li class="tl">
-      <div class="when">February 2025</div>
-      <div class="what"><a href="https://bambitp.github.io/Tagpro-Next/">Tagpro&nbsp;Next</a></div>
-      <p>The first one. A playable single-player client with Box2D physics, PIXI rendering,
-         textures, sounds and a bot to play against.</p>
-      <div class="meta">92 commits ·
-        <a href="https://bambitp.github.io/Tagpro-Next/">Play</a> ·
-        <a href="https://github.com/BambiTP/Tagpro-Next">Source</a></div>
-    </li>
-
-    <li class="tl">
-      <div class="when">April 2025</div>
-      <div class="what"><a href="https://bambitp.github.io/BlitzArena/">Blitz&nbsp;Arena</a></div>
-      <p>A sandbox for the parts of the game that aren't the ball: gravity wells, portals and
-         speedpads, each with its own tile art.</p>
-      <div class="meta">7 commits ·
-        <a href="https://bambitp.github.io/BlitzArena/">Play</a> ·
-        <a href="https://github.com/BambiTP/BlitzArena">Source</a></div>
-    </li>
-
-    <li class="tl">
-      <div class="when">May – June 2026</div>
-      <div class="what"><a href="https://bambitp.github.io/TagproOpen/">Tagpro&nbsp;Open</a></div>
-      <p>The rewrite that stuck. Split into real modules — map loader, contact listener, physics
-         data, renderer, replay player — and became the base every later engine was cut from.</p>
-      <div class="meta">16 commits ·
-        <a href="https://bambitp.github.io/TagproOpen/">Play</a> ·
-        <a href="https://github.com/BambiTP/TagproOpen">Source</a></div>
-    </li>
-
-    <li class="tl">
-      <div class="when">June 2026</div>
-      <div class="what"><a href="https://bambitp.github.io/TagproReplay/">Replay&nbsp;Viewer</a></div>
-      <p>The engine pointed at recorded games instead of live ones: decodes the packet stream and
-         replays a match through the same physics.</p>
-      <div class="meta">5 commits ·
-        <a href="https://bambitp.github.io/TagproReplay/">Open</a> ·
-        <a href="https://github.com/BambiTP/TagproReplay">Source</a></div>
-    </li>
-
-    <li class="tl">
-      <div class="when">July – August 2026</div>
-      <div class="what">GrabTag <span class="tag">private</span></div>
-      <p>Where it turned multiplayer. A Node server with rooms, accounts, reconnect handling and a
-         leader who controls match settings, physics and the map — edited live, mid-game.</p>
-      <div class="meta">23 commits</div>
-    </li>
-
-    <li class="tl now">
-      <div class="when">August 2026</div>
-      <div class="what"><a href="https://bambitp.github.io/BamBall/">BamBall</a></div>
-      <p>The furthest it has gone. A proper engine module set, two extra game modes — Gravity and
-         Eggball — plus a TagPro-style scoreboard, chat channels, flair, and a Cloudflare Worker
-         behind it.</p>
-      <div class="meta">61 commits ·
-        <a href="https://bambitp.github.io/BamBall/">Play</a> ·
-        <a href="https://github.com/BambiTP/BamBall">Source</a></div>
-    </li>
-
-    <li class="tl now">
-      <div class="when">August 2026</div>
-      <div class="what"><a href="https://bambitp.github.io/TagproLiveEditor/">Live Map Editor</a></div>
-      <p>The engine turned into a tool: paint tiles and swap texture packs while the game keeps
-         running around you.</p>
-      <div class="meta">12 commits ·
-        <a href="https://bambitp.github.io/TagproLiveEditor/">Open</a> ·
-        <a href="https://github.com/BambiTP/TagproLiveEditor">Source</a></div>
-    </li>
-
-  </ol>
-</section>
-
-<!-- ============ DATA ============ -->
-<section id="data">
-  <h2>Stats &amp; data</h2>
-  <p class="lead">Match archives, the pipelines that build them, and the decoders they read.</p>
-
-  <div class="stats">
-    <div class="stat"><b>130,700</b><span>ranked matches catalogued</span></div>
-    <div class="stat"><b>17,213</b><span>replay recordings held</span></div>
-    <div class="stat"><b>19,230</b><span>league games recorded</span></div>
-    <div class="stat"><b>49</b><span>league seasons covered</span></div>
-  </div>
-
-  <div class="grid">
-
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/tagpro-replay-archive/">Ranked Replay Archive</a></div>
-      <p>A census of every ranked match ever played — 99.99% of the known ids — and a growing
-         store of the recordings themselves. Refreshed daily. Records that were never published
-         are rebuilt here from the raw recording.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/tagpro-replay-archive/">Coverage</a><span class="sep">·</span>
-        <a href="https://bambitp.github.io/tagpro-replay-archive/download.html">Download</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/tagpro-replay-archive">Source</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/naltp-archive/">NALTP Archive</a></div>
-      <p>The full history of the North American leagues — MLTP, mLTP, NLTP and ALTP — with
-         schedules, drafts, rosters and trades. A fact counts as confirmed only when two separate
-         sources agree; everywhere they disagree is published too.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/naltp-archive/">Browse</a><span class="sep">·</span>
-        <a href="https://bambitp.github.io/naltp-archive/matches.json">All matches (JSON)</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/naltp-archive">Source</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/GLTP/">GLTP</a></div>
-      <p>Records for every Gravity map — fastest completion and fewest jumps — across solo and
-         buddy runs, three seasons, and per-player profiles. Runs are checked against the uploaded
-         replay rather than taken on trust.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/GLTP/">Leaderboard</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/GLTP">Source</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="name"><a href="https://bambitp.github.io/ZomballStats/">Zomball Stats</a></div>
-      <p>Leaderboard and per-player pages for Zomball, with a public API behind it for anyone
-         who wants the numbers.</p>
-      <div class="links">
-        <a href="https://bambitp.github.io/ZomballStats/">Open</a><span class="sep">·</span>
-        <a href="https://github.com/BambiTP/ZomballStats">Source &amp; API</a>
-      </div>
-    </div>
-
-
-
-    <div class="card">
-      <div class="name"><a href="https://github.com/BambiTP/tagpro.eu-data">tagpro.eu Decoder</a></div>
-      <p>Decodes tagpro.eu's packed match format in JavaScript, so you can read a match without
-         the site.</p>
-      <div class="links">
-        <a href="https://github.com/BambiTP/tagpro.eu-data">Source</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="name"><a href="https://github.com/BambiTP/goatt">goatt</a></div>
-      <p>Research into rating players in a game where your team decides the result. Tests the idea
-         on 9×9 Go with fixed bot strategies in pairs, so thousands of games run in seconds.</p>
-      <div class="links">
-        <a href="https://github.com/BambiTP/goatt">Source</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="name"><a href="https://github.com/BambiTP/PublicGames">Public Games</a></div>
-      <p>A flat dataset of public-game match summaries, kept for anyone who wants to run their own
-         numbers.</p>
-      <div class="links">
-        <a href="https://github.com/BambiTP/PublicGames">Source</a>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<footer>
-  <div class="wrap" style="padding:0">
-    Archive figures from the daily coverage refresh, 17 September 2026 ·
-    <a href="https://github.com/BambiTP">github.com/BambiTP</a>
-  </div>
-</footer>
-
-</div>
+tabs.innerHTML = [['all', 'All', P.length], ...Object.entries(CATS).map(([k, v]) => [k, v[0], P.filter(p => p.cat === k).length])]
+  .map(([k, t, n]) => `<button data-cat="${k}">${t}<b>${n}</b></button>`).join('');
+tabs.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  cat = b.dataset.cat; history.replaceState(null, '', cat === 'all' ? location.pathname : '#' + cat); render();
+});
+q.addEventListener('input', render);
+render();
+</script>
 </body>
 </html>
