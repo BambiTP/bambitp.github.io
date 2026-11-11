@@ -46,6 +46,7 @@ header{position:sticky; top:0; z-index:5; background:rgba(15,17,21,.94);
 .body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:4px; flex:1}
 .name{font-weight:650; font-size:15.5px}
 .desc{color:var(--muted); font-size:13.5px}
+.date{color:var(--muted); font-size:12px; opacity:.8; margin-top:6px}
 .btns{display:flex; gap:6px; flex-wrap:wrap; margin-top:auto; padding-top:10px}
 .btns a{font-size:13px; padding:5px 11px; border-radius:7px; background:var(--panel2); border:1px solid var(--rule)}
 .btns a:hover{border-color:var(--muted)}
@@ -79,58 +80,58 @@ const GH = 'https://github.com/BambiTP/', PG = 'https://bambitp.github.io/', GIS
       SHEET = id => 'https://docs.google.com/spreadsheets/d/' + id;
 const P = [
   // Clones
-  {cat:'clones', name:'BambiPro', desc:'Play TagPro online: groups, accounts and replays.', img:'tagprolocal', links:[['▶ Play', 'https://152-44-39-10.sslip.io/'], ['Code', GH+'tagpro-local']]},
-  {cat:'clones', name:'TagPro Offline', desc:'Single-player TagPro with bots. No server needed.', img:'offline', links:[['▶ Play', PG+'tagpro-offline/'], ['Code', GH+'tagpro-offline']]},
-  {cat:'clones', name:'BamBall', desc:'Multiplayer TagPro engine with Gravity and Eggball modes.', img:'bamball', links:[['▶ Play', PG+'BamBall/'], ['Code', GH+'BamBall']]},
-  {cat:'clones', name:'TagproOpen', desc:'Modular rebuild that later engines grew from.', img:'tagproopen', links:[['▶ Play', PG+'TagproOpen/game.html'], ['Code', GH+'TagproOpen']]},
-  {cat:'clones', name:'Tagpro Next', desc:'The first rebuild, with a bot to play against.', img:'tagpronext', links:[['▶ Play', PG+'Tagpro-Next/'], ['Code', GH+'Tagpro-Next']]},
-  {cat:'clones', name:'Blitz Arena', desc:'Portals, boosts and gravity wells sandbox.', links:[['▶ Play', PG+'BlitzArena/'], ['Code', GH+'BlitzArena']]},
-  {cat:'clones', name:'Replay Viewer', desc:'Plays a recorded match back through the physics.', links:[['Open', PG+'TagproReplay/'], ['Code', GH+'TagproReplay']]},
+  {date:'2026-10-22', cat:'clones', name:'BambiPro', desc:'Play TagPro online: groups, accounts and replays.', img:'tagprolocal', links:[['▶ Play', 'https://152-44-39-10.sslip.io/'], ['Code', GH+'tagpro-local']]},
+  {date:'2026-10-16', cat:'clones', name:'TagPro Offline', desc:'Single-player TagPro with bots. No server needed.', img:'offline', links:[['▶ Play', PG+'tagpro-offline/'], ['Code', GH+'tagpro-offline']]},
+  {date:'2026-08-27', cat:'clones', name:'BamBall', desc:'Multiplayer TagPro engine with Gravity and Eggball modes.', img:'bamball', links:[['▶ Play', PG+'BamBall/'], ['Code', GH+'BamBall']]},
+  {date:'2026-06-12', cat:'clones', name:'TagproOpen', desc:'Modular rebuild that later engines grew from.', img:'tagproopen', links:[['▶ Play', PG+'TagproOpen/game.html'], ['Code', GH+'TagproOpen']]},
+  {date:'2025-02-23', cat:'clones', name:'Tagpro Next', desc:'The first rebuild, with a bot to play against.', img:'tagpronext', links:[['▶ Play', PG+'Tagpro-Next/'], ['Code', GH+'Tagpro-Next']]},
+  {date:'2025-04-29', cat:'clones', name:'Blitz Arena', desc:'Portals, boosts and gravity wells sandbox.', links:[['▶ Play', PG+'BlitzArena/'], ['Code', GH+'BlitzArena']]},
+  {date:'2026-06-13', cat:'clones', name:'Replay Viewer', desc:'Plays a recorded match back through the physics.', links:[['Open', PG+'TagproReplay/'], ['Code', GH+'TagproReplay']]},
+  {date:'2025-07-23', cat:'clones', name:'Tile Grid Trainer', desc:'Map-reading drill with sound cues.', links:[['Open', PG+'OFM-Training/'], ['Code', GH+'OFM-Training']]},
 
   // Bots
-  {cat:'bots', name:'tagproAI', desc:'A bot that plans by searching the real engine.', links:[['Code', GH+'tagproAI']]},
-  {cat:'bots', name:'tpbot', desc:'Puts the ball exactly on a target, as fast as possible.', links:[['Code', GH+'tpbot']]},
-  {cat:'bots', name:'Chase Playground', desc:'Exact TagPro movement for training chase bots.', links:[['Open', PG+'chase-playground/ui/'], ['Code', GH+'chase-playground']]},
+  {date:'2026-10-11', cat:'bots', name:'tagproAI', desc:'A bot that plans by searching the real engine.', links:[['Code', GH+'tagproAI']]},
+  {date:'2026-10-06', cat:'bots', name:'tpbot', desc:'Puts the ball exactly on a target, as fast as possible.', links:[['Code', GH+'tpbot']]},
+  {date:'2026-10-11', cat:'bots', name:'Chase Playground', desc:'Exact TagPro movement for training chase bots.', links:[['Open', PG+'chase-playground/ui/'], ['Code', GH+'chase-playground']]},
 
   // Userscripts
-  {cat:'scripts', name:'Expected Caps Overlay', desc:'Shows each team’s expected caps while watching a replay.', links:[['Install', 'https://raw.githubusercontent.com/BambiTP/tagpro-findings/master/userscript/tagpro-xcaps.user.js'], ['Code', GH+'tagpro-findings/tree/master/userscript']]},
-  {cat:'scripts', name:'Minimap Advanced', desc:'Full-size minimap with live players.', links:[['Install', GIST+'141ce5ed4227723062c8e67026c6f39d/raw/TagproMiniMapyAdvanced.user.js'], ['Code', GIST+'141ce5ed4227723062c8e67026c6f39d']]},
-  {cat:'scripts', name:'Ranked Stats', desc:'Your ranked stats per player, from your replays page.', links:[['Install', GIST+'7f2a497c3ecdca061c97c4feae9cc4a6/raw/RankedStats.user.js'], ['Code', GIST+'7f2a497c3ecdca061c97c4feae9cc4a6']]},
-  {cat:'scripts', name:'Match Data Fetcher', desc:'Downloads your ranked match data as JSON.', links:[['Install', GIST+'fa68695fe38b482bceb942f2502c7bee/raw/fetchstats.user.js'], ['Code', GIST+'fa68695fe38b482bceb942f2502c7bee']]},
-  {cat:'scripts', name:'Skill Graph', desc:'Graph of a player’s skill rating on their profile.', links:[['Install', GIST+'fd9e3cadacb7a1695eb149c342f96aaf/raw/skillGraph.user.js'], ['Code', GIST+'fd9e3cadacb7a1695eb149c342f96aaf']]},
-  {cat:'scripts', name:'Auto Switch Teams', desc:'Evens the teams for you when someone joins or leaves.', links:[['Install', GIST+'b7b41416938f578d3d376fdb85e138b6/raw/AutoTeamSwitch.user.js'], ['Code', GIST+'b7b41416938f578d3d376fdb85e138b6']]},
-  {cat:'scripts', name:'Team Switch Macro', desc:'Switch teams with one key.', links:[['Install', GIST+'2540e15d3df53491c8d603f8c84eb7d0/raw/SwitchMacro.user.js'], ['Code', GIST+'2540e15d3df53491c8d603f8c84eb7d0']]},
-  {cat:'scripts', name:'Ranked Voice Chat', desc:'Puts ranked teams into a voice room.', links:[['Install', GIST+'edb6877fcb068e11ce58cdbebece9c48/raw/RankedVoice.user.js'], ['Code', GIST+'edb6877fcb068e11ce58cdbebece9c48']]},
-  {cat:'scripts', name:'Zomball', desc:'Runs the Zomball game mode in a group.', links:[['Install', GIST+'d9d1230fdd8b319f3410fb46738b0de9/raw/zomball.user.js'], ['Code', GIST+'d9d1230fdd8b319f3410fb46738b0de9']]},
-  {cat:'scripts', name:'Zombies & Spiderman', desc:'Zomball textures: blue team plays as zombies.', links:[['Install', GIST+'55c54d028e5e0b0ef768c597e4605b02/raw/ZomballTextures.user.js'], ['Code', GIST+'55c54d028e5e0b0ef768c597e4605b02']]},
-  {cat:'scripts', name:'EggPro', desc:'Small fixes for Egg Ball.', links:[['Install', GIST+'6c28fb4371b6102c845a3e0c92ec8737/raw/EggPro.user.js'], ['Code', GIST+'6c28fb4371b6102c845a3e0c92ec8737']]},
-  {cat:'scripts', name:'Disable Reports', desc:'Stops the report page opening on a kick.', links:[['Install', GIST+'5802103f397c4b47cbc374ea0db7d35e/raw/NoReport.user.js'], ['Code', GIST+'5802103f397c4b47cbc374ea0db7d35e']]},
-  {cat:'scripts', name:'Replace Map Select', desc:'Replaces the group map-selection list.', links:[['Install', 'https://raw.githubusercontent.com/BambiTP/ReplaceMapSelection/main/Replace%20Map%20Select-0.4.user.js'], ['Code', GH+'ReplaceMapSelection']]},
+  {date:'2026-10-12', cat:'scripts', name:'Expected Caps Overlay', desc:'Shows each team’s expected caps while watching a replay.', links:[['Install', 'https://raw.githubusercontent.com/BambiTP/tagpro-findings/master/userscript/tagpro-xcaps.user.js'], ['Code', GH+'tagpro-findings/tree/master/userscript']]},
+  {date:'2026-06-17', cat:'scripts', name:'Minimap Advanced', desc:'Full-size minimap with live players.', links:[['Install', GIST+'141ce5ed4227723062c8e67026c6f39d/raw/TagproMiniMapyAdvanced.user.js'], ['Code', GIST+'141ce5ed4227723062c8e67026c6f39d']]},
+  {date:'2025-04-05', cat:'scripts', name:'Ranked Stats', desc:'Your ranked stats per player, from your replays page.', links:[['Install', GIST+'7f2a497c3ecdca061c97c4feae9cc4a6/raw/RankedStats.user.js'], ['Code', GIST+'7f2a497c3ecdca061c97c4feae9cc4a6']]},
+  {date:'2025-04-05', cat:'scripts', name:'Match Data Fetcher', desc:'Downloads your ranked match data as JSON.', links:[['Install', GIST+'fa68695fe38b482bceb942f2502c7bee/raw/fetchstats.user.js'], ['Code', GIST+'fa68695fe38b482bceb942f2502c7bee']]},
+  {date:'2025-11-22', cat:'scripts', name:'Skill Graph', desc:'Graph of a player’s skill rating on their profile.', links:[['Install', GIST+'fd9e3cadacb7a1695eb149c342f96aaf/raw/skillGraph.user.js'], ['Code', GIST+'fd9e3cadacb7a1695eb149c342f96aaf']]},
+  {date:'2026-06-17', cat:'scripts', name:'Auto Switch Teams', desc:'Evens the teams for you when someone joins or leaves.', links:[['Install', GIST+'b7b41416938f578d3d376fdb85e138b6/raw/AutoTeamSwitch.user.js'], ['Code', GIST+'b7b41416938f578d3d376fdb85e138b6']]},
+  {date:'2026-06-17', cat:'scripts', name:'Team Switch Macro', desc:'Switch teams with one key.', links:[['Install', GIST+'2540e15d3df53491c8d603f8c84eb7d0/raw/SwitchMacro.user.js'], ['Code', GIST+'2540e15d3df53491c8d603f8c84eb7d0']]},
+  {date:'2025-04-03', cat:'scripts', name:'Ranked Voice Chat', desc:'Puts ranked teams into a voice room.', links:[['Install', GIST+'edb6877fcb068e11ce58cdbebece9c48/raw/RankedVoice.user.js'], ['Code', GIST+'edb6877fcb068e11ce58cdbebece9c48']]},
+  {date:'2026-06-06', cat:'scripts', name:'Zomball', desc:'Runs the Zomball game mode in a group.', links:[['Install', GIST+'d9d1230fdd8b319f3410fb46738b0de9/raw/zomball.user.js'], ['Code', GIST+'d9d1230fdd8b319f3410fb46738b0de9']]},
+  {date:'2026-06-06', cat:'scripts', name:'Zombies & Spiderman', desc:'Zomball textures: blue team plays as zombies.', links:[['Install', GIST+'55c54d028e5e0b0ef768c597e4605b02/raw/ZomballTextures.user.js'], ['Code', GIST+'55c54d028e5e0b0ef768c597e4605b02']]},
+  {date:'2025-07-18', cat:'scripts', name:'EggPro', desc:'Small fixes for Egg Ball.', links:[['Install', GIST+'6c28fb4371b6102c845a3e0c92ec8737/raw/EggPro.user.js'], ['Code', GIST+'6c28fb4371b6102c845a3e0c92ec8737']]},
+  {date:'2025-07-15', cat:'scripts', name:'Disable Reports', desc:'Stops the report page opening on a kick.', links:[['Install', GIST+'5802103f397c4b47cbc374ea0db7d35e/raw/NoReport.user.js'], ['Code', GIST+'5802103f397c4b47cbc374ea0db7d35e']]},
+  {date:'2024-08-02', cat:'scripts', name:'Replace Map Select', desc:'Replaces the group map-selection list.', links:[['Install', 'https://raw.githubusercontent.com/BambiTP/ReplaceMapSelection/main/Replace%20Map%20Select-0.4.user.js'], ['Code', GH+'ReplaceMapSelection']]},
 
   // Map tools
-  {cat:'maps', name:'StraTAGy', desc:'Draw plays over any Fortunate Maps map.', img:'stratagy', links:[['Open', PG+'StraTAGy/'], ['Userscript', 'https://greasyfork.org/en/scripts/467747-fortunate-maps-stratagy'], ['Code', GH+'StraTAGy']]},
-  {cat:'maps', name:'Map Preview', desc:'See a Fortunate Maps map in any texture pack.', img:'mappreview', links:[['Open', PG+'MapPreview/'], ['Code', GH+'MapPreview']]},
-  {cat:'maps', name:'Live Map Editor', desc:'Edit a map while you play on it.', img:'liveeditor', links:[['Open', PG+'TagproLiveEditor/'], ['Code', GH+'TagproLiveEditor']]},
-  {cat:'maps', name:'Custom Textures', desc:'Retexture map tiles and export the pack.', img:'customtextures', links:[['Open', PG+'CustomTextures/'], ['Userscript', 'https://greasyfork.org/en/scripts/526517-tagpro-custom-map-tiles-anchored-pixi-overlay-editor'], ['Packs', GH+'texturepacks']]},
-  {cat:'maps', name:'Image to Map', desc:'Turn any image into a TagPro map.', img:'imagetomap', links:[['Open', PG+'Image-To-Map-Tagpro/'], ['Code', GH+'Image-To-Map-Tagpro']]},
-  {cat:'maps', name:'Wall Generator', desc:'Generate map walls from sliders, a seed or a random mix.', img:'wallgen', links:[['Open', PG+'BuildAMapWorkshop/'], ['Code', GH+'BuildAMapWorkshop']]},
-  {cat:'maps', name:'Maps Stitcher', desc:'Lay map screenshots in a grid, save as one PNG.', links:[['Open', PG+'FortunateMapsStitcher/'], ['Code', GH+'FortunateMapsStitcher']]},
-  {cat:'maps', name:'Tile Grid Trainer', desc:'Map-reading drill with sound cues.', links:[['Open', PG+'OFM-Training/'], ['Code', GH+'OFM-Training']]},
+  {date:'2026-09-01', cat:'maps', name:'StraTAGy', desc:'Draw plays over any Fortunate Maps map.', img:'stratagy', links:[['Open', PG+'StraTAGy/'], ['Userscript', 'https://greasyfork.org/en/scripts/467747-fortunate-maps-stratagy'], ['Code', GH+'StraTAGy']]},
+  {date:'2026-06-04', cat:'maps', name:'Map Preview', desc:'See a Fortunate Maps map in any texture pack.', img:'mappreview', links:[['Open', PG+'MapPreview/'], ['Code', GH+'MapPreview']]},
+  {date:'2026-08-22', cat:'maps', name:'Live Map Editor', desc:'Edit a map while you play on it.', img:'liveeditor', links:[['Open', PG+'TagproLiveEditor/'], ['Code', GH+'TagproLiveEditor']]},
+  {date:'2025-07-17', cat:'maps', name:'Custom Textures', desc:'Retexture map tiles and export the pack.', img:'customtextures', links:[['Open', PG+'CustomTextures/'], ['Userscript', 'https://greasyfork.org/en/scripts/526517-tagpro-custom-map-tiles-anchored-pixi-overlay-editor'], ['Packs', GH+'texturepacks']]},
+  {date:'2024-10-06', cat:'maps', name:'Image to Map', desc:'Turn any image into a TagPro map.', img:'imagetomap', links:[['Open', PG+'Image-To-Map-Tagpro/'], ['Code', GH+'Image-To-Map-Tagpro']]},
+  {date:'2026-10-11', cat:'maps', name:'Wall Generator', desc:'Generate map walls from sliders, a seed or a random mix.', img:'wallgen', links:[['Open', PG+'BuildAMapWorkshop/'], ['Code', GH+'BuildAMapWorkshop']]},
+  {date:'2025-08-18', cat:'maps', name:'Maps Stitcher', desc:'Lay map screenshots in a grid, save as one PNG.', links:[['Open', PG+'FortunateMapsStitcher/'], ['Code', GH+'FortunateMapsStitcher']]},
   {cat:'maps', name:'Map Ratings', desc:'Daily likes, dislikes and score for every rated map.', links:[['Open', SHEET('1oW00BDTxzhdsmQhNa-4FVWEbdxXKx1iqu4zuCppVEPE')]]},
 
   // Stats
-  {cat:'stats', name:'TagPro Findings', desc:'What 10,564 ranked replays say about winning.', img:'findings', links:[['Read', GH+'tagpro-findings']]},
-  {cat:'stats', name:'Map Size vs Popularity', desc:'Every public game since 2015 vs map shape.', img:'mapanalysis', links:[['Read', GH+'tagpro-map-analysis']]},
-  {cat:'stats', name:'Ranked Replay Archive', desc:'Every ranked match, and the saved recordings.', img:'replayarchive', links:[['Open', PG+'tagpro-replay-archive/'], ['Download', PG+'tagpro-replay-archive/download.html'], ['Code', GH+'tagpro-replay-archive']]},
-  {cat:'stats', name:'NALTP Archive', desc:'Full history of the NA leagues.', img:'naltp', links:[['Open', PG+'naltp-archive/'], ['Code', GH+'naltp-archive']]},
-  {cat:'stats', name:'GLTP', desc:'Gravity map records and leaderboard.', img:'gltp', links:[['Open', PG+'GLTP/'], ['Code', GH+'GLTP']]},
-  {cat:'stats', name:'Zomball Stats', desc:'Zomball leaderboard, player pages and API.', links:[['Open', PG+'ZomballStats/'], ['Code', GH+'ZomballStats']]},
-  {cat:'stats', name:'Sheets Link Extractor', desc:'Pull every tagpro.eu link out of league sheets.', img:'eufromhub', links:[['Open', PG+'eufromhub/'], ['Code', GH+'eufromhub']]},
-  {cat:'stats', name:'Ranked Stats Collector', desc:'Python pipeline for ranked player and map stats.', links:[['Code', GH+'RankedStatsCollector']]},
-  {cat:'stats', name:'TagproStats', desc:'Stats tool with a GUI for tagpro.eu matches.', links:[['Code', GH+'TagproStats']]},
-  {cat:'stats', name:'tagpro.eu Decoder', desc:'Read tagpro.eu match files in JavaScript.', links:[['Code', GH+'tagpro.eu-data']]},
-  {cat:'stats', name:'Public Games', desc:'297k public match summaries, one CSV.', links:[['Download', GH+'PublicGames']]},
-  {cat:'stats', name:'Socket API Reference', desc:'Every TagPro socket event, written down.', links:[['Read', GH+'api']]},
+  {date:'2026-10-12', cat:'stats', name:'TagPro Findings', desc:'What 10,564 ranked replays say about winning.', img:'findings', links:[['Read', GH+'tagpro-findings']]},
+  {date:'2026-09-19', cat:'stats', name:'Map Size vs Popularity', desc:'Every public game since 2015 vs map shape.', img:'mapanalysis', links:[['Read', GH+'tagpro-map-analysis']]},
+  {date:'2026-11-10', cat:'stats', name:'Ranked Replay Archive', desc:'Every ranked match, and the saved recordings.', img:'replayarchive', links:[['Open', PG+'tagpro-replay-archive/'], ['Download', PG+'tagpro-replay-archive/download.html'], ['Code', GH+'tagpro-replay-archive']]},
+  {date:'2026-11-02', cat:'stats', name:'NALTP Archive', desc:'Full history of the NA leagues.', img:'naltp', links:[['Open', PG+'naltp-archive/'], ['Code', GH+'naltp-archive']]},
+  {date:'2026-11-11', cat:'stats', name:'GLTP', desc:'Gravity map records and leaderboard.', img:'gltp', links:[['Open', PG+'GLTP/'], ['Code', GH+'GLTP']]},
+  {date:'2026-06-15', cat:'stats', name:'Zomball Stats', desc:'Zomball leaderboard, player pages and API.', links:[['Open', PG+'ZomballStats/'], ['Code', GH+'ZomballStats']]},
+  {date:'2025-07-15', cat:'stats', name:'Sheets Link Extractor', desc:'Pull every tagpro.eu link out of league sheets.', img:'eufromhub', links:[['Open', PG+'eufromhub/'], ['Code', GH+'eufromhub']]},
+  {date:'2025-06-13', cat:'stats', name:'Ranked Stats Collector', desc:'Python pipeline for ranked player and map stats.', links:[['Code', GH+'RankedStatsCollector']]},
+  {date:'2025-09-12', cat:'stats', name:'TagproStats', desc:'Stats tool with a GUI for tagpro.eu matches.', links:[['Code', GH+'TagproStats']]},
+  {date:'2026-06-07', cat:'stats', name:'tagpro.eu Decoder', desc:'Read tagpro.eu match files in JavaScript.', links:[['Code', GH+'tagpro.eu-data']]},
+  {date:'2025-05-29', cat:'stats', name:'Public Games', desc:'297k public match summaries, one CSV.', links:[['Download', GH+'PublicGames']]},
+  {date:'2026-06-14', cat:'stats', name:'Socket API Reference', desc:'Every TagPro socket event, written down.', links:[['Read', GH+'api']]},
 
   // Spreadsheets
   {cat:'sheets', name:'Ranked Stats', desc:'Every ranked player’s full stat line (Aug 2025).', links:[['Open', SHEET('13lX7jrlbD0H87GYMt8WZt8tssoxQjYJUQ1ofGnSLRYw')]]},
@@ -152,6 +153,8 @@ const P = [
 const CATS = {clones:['Clones','🎮','#3a1d22'], bots:['Bots','🤖','#1c2740'], scripts:['Userscripts','📜','#2d2a18'],
               maps:['Map Tools','🗺️','#18302a'], stats:['Stats','📊','#22213a'], sheets:['Spreadsheets','📈','#183028']};
 const grid = document.getElementById('grid'), tabs = document.getElementById('tabs'), q = document.getElementById('q');
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const when = d => { const [y, m] = d.split('-'); return 'Updated ' + MONTHS[+m - 1] + ' ' + y; };
 const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let cat = (location.hash.slice(1) in CATS) ? location.hash.slice(1) : 'all';
 
@@ -161,7 +164,7 @@ function card(p) {
     ? `<a class="pic" href="${main}"><img src="img/${p.img}.jpg" alt="" loading="lazy"><span class="cat">${label}</span></a>`
     : `<a class="pic gen" href="${main}" style="background:linear-gradient(135deg,${color},#14161c)">${icon}<span class="cat">${label}</span></a>`;
   const btns = p.links.map(([t, u], i) => `<a class="${i === 0 ? 'main' : ''}" href="${u}">${esc(t)}</a>`).join('');
-  return `<div class="card">${pic}<div class="body"><div class="name">${esc(p.name)}</div><div class="desc">${esc(p.desc)}</div><div class="btns">${btns}</div></div></div>`;
+  return `<div class="card">${pic}<div class="body"><div class="name">${esc(p.name)}</div><div class="desc">${esc(p.desc)}</div>${p.date ? `<div class="date">${when(p.date)}</div>` : ''}<div class="btns">${btns}</div></div></div>`;
 }
 
 function render() {
